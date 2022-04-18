@@ -2,6 +2,8 @@
 import Error from './components/Error.vue'
 import Nav from './components/Nav.vue'
 
+
+
 export default {
   name: "App",
   components: {
@@ -18,7 +20,9 @@ export default {
       chosen: {
         cripto: null, 
         VS: null
-      }
+      },
+      criptoValue: null
+
     }
   },
  
@@ -31,9 +35,10 @@ export default {
 
     async getCriptoValue() {
       const { cripto, VS } = this.chosen
-      console.log(cripto != null, VS != null)
       if( cripto != null && VS != null ) {
-        console.log(cripto, VS)
+        const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${cripto}&vs_currencies=${VS}`)
+        const data = await res.json()
+        this.criptoValue = data[cripto][VS]
       }
     },
 
@@ -60,13 +65,13 @@ export default {
 
 
 <template>
-  <div v-if = 'apiStatus' class = 'container-fluid bg-dark text-white vh-100 px-0'> 
-    <div class = 'row'></div>
-      <Nav
-      @setChosenCripto = 'setChosenCripto'
-      @setChosenVS = 'setChosenVS'
-      />
-    </div>  
-  <Error v-else/>
+  <div class = 'bg-dark'>
+    <div class="container vh-100">
+      <Nav/>
+    </div>
+  </div>
+  
+  
 </template>
+
 
