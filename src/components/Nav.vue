@@ -4,7 +4,6 @@
          data() {
              return {
                  chosenCripto: "Choose your cripto",
-                 chosenVS: "Choose your VS coin",
                  showMenu: false
              }
          },
@@ -18,12 +17,7 @@
          watch: {
              chosenCripto() {
                  this.$emit('setChosenCripto', this.chosenCripto)
-             },
-             chosenVS() {
-                 this.$emit('setChosenVS', this.chosenVS)
-             },
-             
-             
+             }           
          }
          
      }
@@ -47,7 +41,7 @@
                 <div class="offcanvas-body">
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="inputGroupSelect01">Options</label>
-                        <select v-model = "chosenCripto" class="form-select" id="inputGroupSelect01">
+                        <select v-model = 'chosenCripto' class="form-select" id="inputGroupSelect01">
                             <option hidden selected>Choose your cripto</option>
                             <option value="bitcoin">Bitcoin</option>
                             <option value="dacxi">DACXI</option>
@@ -56,15 +50,7 @@
                             <option value="terra-luna">LUNA</option>
                         </select>
                     </div>
-                     <div class="input-group mb-3">
-                        <label class="input-group-text" for="inputGroupSelect01">Options</label>
-                        <select v-model = "chosenVS" class="form-select" id="inputGroupSelect01">
-                            <option hidden selected>Choose your VS coin</option>
-                            <option value="brl">Real</option>
-                            <option value="usd">Dolar</option>
-                            <option value="eur">Euro</option>
-                        </select>
-                    </div>
+                    <input class = 'form-select' id = 'inputDate' type = 'date'/>
                 </div>
             </div>
         </nav>

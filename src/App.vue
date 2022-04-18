@@ -1,13 +1,14 @@
 <script>
 import Error from './components/Error.vue'
 import Nav from './components/Nav.vue'
+import Card from './components/Card.vue'
 
 
 
 export default {
   name: "App",
   components: {
-    Error, Nav
+    Error, Nav, Card
   },
   
    beforeMount(){
@@ -17,12 +18,8 @@ export default {
   data() {
     return {
       apiStatus: true,
-      chosen: {
-        cripto: null, 
-        VS: null
-      },
+      chosenCripto: null,
       criptoValue: null
-
     }
   },
  
@@ -34,30 +31,19 @@ export default {
     },
 
     async getCriptoValue() {
-      const { cripto, VS } = this.chosen
-      if( cripto != null && VS != null ) {
-        const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${cripto}&vs_currencies=${VS}`)
+        const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${this.chosenCripto}&vs_currencies=brl%2Cusd%2Ceur`)
         const data = await res.json()
-        this.criptoValue = data[cripto][VS]
-      }
+        this.criptoValue = data
+      
     },
 
     setChosenCripto(value) {
-      this.chosen.cripto = value
+      this.chosenCripto = value
     },
-
-    setChosenVS(value) {
-      this.chosen.VS = value
-    }
   },
 
   watch: {
-    chosen: {
-      handler() {
-        this.getCriptoValue()
-      },
-      deep: true
-    }
+    chosenCripto: "getCriptoValue"
   }
 
 }
@@ -66,12 +52,20 @@ export default {
 
 <template>
   <div class = 'bg-dark'>
-    <div class="container vh-100">
-      <Nav/>
+    <div class="container py-5 vh-100">
+      <Nav
+      @setChosenCripto = "setChosenCripto"
+      />
+
+      <div class="row">
+      <div class=" text-white col-md-6 offset-md-3">
+        <Card
+        :criptoValue = criptoValue
+        />
+      </div>
+      </div>  
     </div>
   </div>
-  
-  
 </template>
 
 

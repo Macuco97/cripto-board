@@ -1,73 +1,48 @@
- <script>
-     export default {
-         name: "Nav",
-         data() {
-             return {
-                 chosenCripto: "Choose your cripto",
-                 chosenVS: "Choose your VS coin",
-                 showMenu: false
-             }
-         },
-
-         methods: {
-             showOffcanvasMenu(){
-                this.showMenu ? this.showMenu = false : this.showMenu = true;
-        }
-         },
-         
-         watch: {
-             chosenCripto() {
-                 this.$emit('setChosenCripto', this.chosenCripto)
-             },
-             chosenVS() {
-                 this.$emit('setChosenVS', this.chosenVS)
-             },
-             
-             
-         }
-         
-     }
- </script>
-
- <template>
-     <div id="app" class="container py-2">
-        <nav class="navbar d-inline  navbar-collapse navbar-dark fixed-top">
-            <div class="container">
-                <span class="float-start">
-                    <button class="navbar-toggler" type="button" @click.prevent="showOffcanvasMenu()">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                </span>
+<script>
+	export default {
+		name: "Card",
+		props: {
+        	      criptoValue: Object,
+                  default: null
+        	},
+		data(){
+                  return {
+                        coin: "Choose your coin in SideMenu",
+                        BRL: null, 
+                        USD: null,
+                        EUR: null
+                  }
+                  
+		},
+            methods: {
+                  getValuesFromProps(){
+                        const objectKey = (Object.keys(this.criptoValue)[0])
+                        const coinsVs = this.criptoValue[objectKey]
+                        this.coin = objectKey
+                        this.BRL = coinsVs.brl
+                        this.USD = coinsVs.usd
+                        this.EUR = coinsVs.eur
+                  }
+            },
+            watch: {
+                  criptoValue: {
+                        deep: true, 
+                        handler: "getValuesFromProps"
+                  }
+            }
+    	}	
+</script>
+<template>
+      <div class="card bg-secondary" style = "width: 18rem;">
+            <div class="card-header text-uppercase">{{ coin }}</div>
+            <div class="card-body">
+                  <h5 class="text-uppercase card-title">Price Currenty </h5>
+                  <ul class = "list-group">
+                        <li class = 'bg-secondary list-group-item'><strong>BRL: </strong>{{ BRL }}</li>
+                        <li class = 'bg-secondary list-group-item'><strong>USD: </strong>{{ USD }}</li>
+                        <li class = 'bg-secondary list-group-item'><strong>EUR: </strong>{{ EUR }}</li>
+                  </ul>
             </div>
-            <div class="offcanvas bg-secondary offcanvas-start" :class="showMenu ? 'show' : ''" tabindex="-1" :style="{ visibility: showMenu ? 'visible' : 'hidden' }">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="">Choose your options below</h5>
-                    <button type="button" class="btn-close bg-light text-reset" @click.prevent="showOffcanvasMenu()"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <div class="input-group mb-3">
-                        <label class="input-group-text" for="inputGroupSelect01">Options</label>
-                        <select v-model = "chosenCripto" class="form-select" id="inputGroupSelect01">
-                            <option hidden selected>Choose your cripto</option>
-                            <option value="bitcoin">Bitcoin</option>
-                            <option value="dacxi">DACXI</option>
-                            <option value="ethereum">Ethereum</option>
-                            <option value="cosmos">ATOM</option>
-                            <option value="terra-luna">LUNA</option>
-                        </select>
-                    </div>
-                     <div class="input-group mb-3">
-                        <label class="input-group-text" for="inputGroupSelect01">Options</label>
-                        <select v-model = "chosenVS" class="form-select" id="inputGroupSelect01">
-                            <option hidden selected>Choose your VS coin</option>
-                            <option value="brl">Real</option>
-                            <option value="usd">Dolar</option>
-                            <option value="eur">Euro</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
- </template>
+      </div>
+</template>
 
