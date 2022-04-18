@@ -1,4 +1,5 @@
 <script>
+import { watch } from '@vue/runtime-core';
 import Error from './components/Error.vue'
 import Nav from './components/Nav.vue'
 
@@ -7,31 +8,25 @@ export default {
   components: {
     Error, Nav
   },
+  
+   beforeMount(){
+    this.getApiStatus()
+  },
+
   data() {
     return {
       apiStatus: true,
-      btcVsUsd: null,
+      btcVsUsd: null
     }
   },
-  beforeMount(){
-    this.getData()
-    this.getbtcVsUsd()
-    this.getCoinsList()
-  },
+ 
   methods: {
-    async getData(){
+    async getApiStatus(){
       const res = await fetch(`https://api.coingecko.com/api/v3/ping`)
       const data = await res.json()
       this.apiStatus = data.gecko_says === "(V3) To the Moon!"
-    },
-
-    async getbtcVsUsd(){
-      const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd')
-      const data = await res.json()
-      const bitcoin = data.bitcoin
-      const bitcoinVsUsb = bitcoin.usd
-      this.btcVsUsd = bitcoinVsUsb
-    },
+    }
+  }
 
 };
 </script>
