@@ -16,7 +16,8 @@ export default {
   data() {
     return {
       apiStatus: true,
-      btcVsUsd: null
+      chosenCripto: null, 
+      chosenVS: null 
     }
   },
  
