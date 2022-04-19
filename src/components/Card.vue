@@ -38,9 +38,9 @@
             <div class="card-body">
                   <h5 class="text-uppercase card-title">Price Currenty </h5>
                   <ul class = "list-group">
-                        <li class = 'bg-secondary list-group-item'><strong>BRL: </strong>{{ BRL }}</li>
-                        <li class = 'bg-secondary list-group-item'><strong>USD: </strong>{{ USD }}</li>
-                        <li class = 'bg-secondary list-group-item'><strong>EUR: </strong>{{ EUR }}</li>
+                        <li class = 'bg-secondary list-group-item'><strong>BRL: </strong>R${{ BRL }}</li>
+                        <li class = 'bg-secondary list-group-item'><strong>USD: </strong>${{ USD }}</li>
+                        <li class = 'bg-secondary list-group-item'><strong>EUR: </strong>€{{ EUR }}</li>
                   </ul>
             </div>
       </div>

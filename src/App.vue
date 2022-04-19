@@ -19,7 +19,9 @@ export default {
     return {
       apiStatus: true,
       chosenCripto: null,
-      criptoValue: null
+      criptoValue: null,
+      chosenDate: null, 
+      history: null
     }
   },
  
@@ -30,20 +32,37 @@ export default {
       this.apiStatus = data.gecko_says === "(V3) To the Moon!"
     },
 
-    async getCriptoValue() {
+    async getCriptoValue(){
         const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${this.chosenCripto}&vs_currencies=brl%2Cusd%2Ceur`)
         const data = await res.json()
         this.criptoValue = data
       
     },
 
+    async getHistory(){
+		if (this.chosenCripto != null) {
+			const res = await fetch(`https://api.coingecko.com/api/v3/coins/${this.chosenCripto}/history?date=${this.chosenDate}&localization=false`)
+       		const data = await res.json()
+      		this.history = data
+		}
+		else {
+			alert ("Choose some Cripto")
+		}
+		
+    },
+
     setChosenCripto(value) {
       this.chosenCripto = value
     },
+
+    setChosenDate(date){
+      this.chosenDate = date
+    }
   },
 
   watch: {
-    chosenCripto: "getCriptoValue"
+    chosenCripto: "getCriptoValue",
+    chosenDate: 'getHistory'
   }
 
 }
@@ -55,12 +74,14 @@ export default {
     <div class="container py-5 vh-100">
       <Nav
       @setChosenCripto = "setChosenCripto"
+      @date = "setChosenDate"
       />
 
       <div class="row">
       <div class=" text-white col-md-6 offset-md-3">
         <Card
         :criptoValue = criptoValue
+        :chosenDate = chosenDate
         />
       </div>
       </div>  

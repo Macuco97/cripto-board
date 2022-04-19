@@ -4,20 +4,30 @@
          data() {
              return {
                  chosenCripto: "Choose your cripto",
-                 showMenu: false
+                 showMenu: false,
+                 date: null
              }
          },
 
          methods: {
              showOffcanvasMenu(){
                 this.showMenu ? this.showMenu = false : this.showMenu = true;
-        }
+            },
+            changeFormatDate(date){
+                const separeteDate = date.split("-")
+                const concatDate = `${separeteDate[2]}-${separeteDate[1]}-${separeteDate[0]}`
+                return concatDate
+            }
          },
          
          watch: {
              chosenCripto() {
                  this.$emit('setChosenCripto', this.chosenCripto)
-             }           
+             },
+             date(){
+                 const newFormatDate = this.changeFormatDate(this.date)
+                 this.$emit('date', newFormatDate)
+             }
          }
          
      }
@@ -50,7 +60,7 @@
                             <option value="terra-luna">LUNA</option>
                         </select>
                     </div>
-                    <input class = 'form-select' id = 'inputDate' type = 'date'/>
+                    <input v-model = 'date' class = 'form-select' id = 'inputDate' type = 'date'/>
                 </div>
             </div>
         </nav>
